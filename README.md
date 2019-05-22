@@ -1,14 +1,23 @@
 # Securing Pods for EKS
 
 ## Step 1:
-Create VPC for Kubernetes:
+Create VPC for Kubernetes on AWS. 
 CloudFormation: https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-sample.yaml
 
-Step 2: Follow the Instructions to install Kubectl outline here:
+
+Step 2: Deploy EKS Cluster:
+Use Management Console
+
+Step 3: Update AWS ClI to latest version:
+https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
+
+Step 3: Follow the Instructions to install Kubectl outline here:
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
-Step 3: Deploy EKS Cluster:
-<add CFN Stack?>
+Step 4: 
+Use the AWS CLI update-kubeconfig command to create or update your kubeconfig for your cluster. 
+aws eks --region region update-kubeconfig --name cluster_name
+kubectl get svc
 
 Step 4: Create IAM Policy for Nodes:
 IAM roles
@@ -52,8 +61,8 @@ The roles that will be assumed must have a Trust Relationship which allows them 
   ]
 }
 
-Step 5: Launch nodes with IAM Roles
-<Include CFN Stack with parameter for IAM Role to be assigned to worker nodes. 
+
+Step 5: Launch nodes with IAM Role attached to node. This will be the IAM role the node uses. Another one will be created for Pods. You will need to enter the IAM role name to the nodes.  
 
 Step 6: Deploy kube2iam 
 
