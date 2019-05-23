@@ -75,9 +75,9 @@ Step 7: Deploy Application to test
 apiVersion: v1
 kind: Pod
 metadata:
-  name: aws-cli
+  name: s3
   labels:
-    name: aws-cli
+    name: s3
   annotations:
     iam.amazonaws.com/role: arn:aws:iam::794843820546:role/s3kube2iam
 spec:
@@ -88,8 +88,8 @@ spec:
       - "s3"
       - "ls"
       - "jamesmeyer.org"
-    name: aws-cli
-    ```
+    name: s3
+```
 
 Securing pods on Kuberenetes:
 
