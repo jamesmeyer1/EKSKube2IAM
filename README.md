@@ -1,7 +1,7 @@
 # Securing Pods for EKS
 
 ## Goals of the Workshop
-This workshop will walk through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, role, and IAM policies that are required to apply IAM to a pod. 
+This workshop will walk through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, roles, and IAM policies that are required to apply pod level security on EKS. 
 
 ```
 Things I would copy down as you see or create them.
@@ -14,7 +14,7 @@ Things I would copy down as you see or create them.
 ```
 
 ## Step 1:
-Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it. You can read about the subnet and VPC tagging performed here.
+Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it. You can read about the subnet and VPC tagging performed here. You can include this address or upload the file above with same name. 
 
 CloudFormation: https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-sample.yaml 
 
