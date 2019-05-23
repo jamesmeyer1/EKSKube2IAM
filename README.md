@@ -56,7 +56,9 @@ data:
 ```
 
 ## Step 5: 
-Use the AWS CLI update-kubeconfig command to create or update your kubeconfig for your cluster. 
+Use the AWS CLI to create or update your kubeconfig for your cluster. This will combine other contexts. You can read more about this process including troubleshooting tips here.
+https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
+
 ```
 aws eks --region region update-kubeconfig --name cluster_name
 ```
