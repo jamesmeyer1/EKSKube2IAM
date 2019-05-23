@@ -9,7 +9,7 @@ Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS
 CloudFormation: https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-sample.yaml 
 
 ## Step 2: Deploy EKS Cluster:
-1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. Your subnets will be tagged based on <stackname>-Subnet#
+1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. Your subnets will be tagged based on "stackname"-Subnet#
 
 ## Step 3: Update AWS ClI to latest version:
 https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
