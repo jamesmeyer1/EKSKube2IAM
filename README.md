@@ -14,7 +14,7 @@ CloudFormation: https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/201
 ## Step 3: Update AWS ClI to latest version:
 https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
 
-## Step 4: Follow the Instructions to install Kubectl outline here:
+## Step 4: Install Kubectl per your OS as outlined here:
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
 ## Launch Instances:
