@@ -112,27 +112,6 @@ Step 5: Launch nodes with IAM Role attached to node. This will be the IAM role t
 
 Step 6: Deploy kube2iam 
 
-Step 7: Deploy Application to test
-```
-apiVersion: v1
-kind: Pod
-metadata:
-  name: s3
-  labels:
-    name: s3
-  annotations:
-    iam.amazonaws.com/role: <arn application uses>
-spec:
-  containers:
-  - image: fstab/aws-cli
-    command:
-      - "/home/aws/aws/env/bin/aws"
-      - "s3"
-      - "ls"
-      - "<your bucket name here>"
-    name: s3
-```
-
 Securing pods on Kuberenetes:
 
 Task 1 Create a Role for IAM:
@@ -215,4 +194,24 @@ spec:
               name: http
           securityContext:
               privileged: true
+```
+Step 7: Deploy Application to test
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s3
+  labels:
+    name: s3
+  annotations:
+    iam.amazonaws.com/role: <arn application uses>
+spec:
+  containers:
+  - image: fstab/aws-cli
+    command:
+      - "/home/aws/aws/env/bin/aws"
+      - "s3"
+      - "ls"
+      - "<your bucket name here>"
+    name: s3
 ```
