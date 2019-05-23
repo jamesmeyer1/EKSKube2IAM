@@ -26,7 +26,7 @@ kubectl get svc
 IAM roles
 
 The Kuberentes workers will need to assume a role. Please include the following in a policy and create a role. Name it something you will remember. You will need it later. 
-
+```
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -39,6 +39,7 @@ The Kuberentes workers will need to assume a role. Please include the following 
     }
   ]
 }
+```
 
 The roles that will be assumed must have a Trust Relationship which allows them to be assumed by the kubernetes worker role. 
 
