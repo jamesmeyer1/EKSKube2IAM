@@ -57,8 +57,12 @@ data:
 
 ## Step 5: 
 Use the AWS CLI update-kubeconfig command to create or update your kubeconfig for your cluster. 
+```
 aws eks --region region update-kubeconfig --name cluster_name
+```
+```
 kubectl get svc
+```
 
 ## Step 6: Create IAM Policy for Nodes:
 IAM roles
