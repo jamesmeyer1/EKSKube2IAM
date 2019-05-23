@@ -79,7 +79,7 @@ metadata:
   labels:
     name: s3
   annotations:
-    iam.amazonaws.com/role: arn:aws:iam::794843820546:role/s3kube2iam
+    iam.amazonaws.com/role: <arn application uses>
 spec:
   containers:
   - image: fstab/aws-cli
@@ -87,7 +87,7 @@ spec:
       - "/home/aws/aws/env/bin/aws"
       - "s3"
       - "ls"
-      - "jamesmeyer.org"
+      - "<your bucket name here>"
     name: s3
 ```
 
@@ -119,7 +119,7 @@ spec:
           name: kube2iam
           args:
             - "--app-port=8181"
-            - "--base-role-arn=arn:aws:iam::794843820546:role/kube2iamrole"
+            - "--base-role-arn=<arn of worker nodes>"
             - "--iptables=true"
             - "--host-ip=$(HOST_IP)"
             - "--host-interface=weave"
