@@ -138,6 +138,36 @@ Securing pods on Kuberenetes:
 Task 1 Create a Role for IAM:
 
 ```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube2iam
+  namespace: kube-system
+---
+apiVersion: v1
+items:
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: kube2iam
+    rules:
+      - apiGroups: [""]
+        resources: ["namespaces","pods"]
+        verbs: ["get","watch","list"]
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: kube2iam
+    subjects:
+    - kind: ServiceAccount
+      name: kube2iam
+      namespace: kube-system
+    roleRef:
+      kind: ClusterRole
+      name: kube2iam
+      apiGroup: rbac.authorization.k8s.io
+kind: List
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -149,6 +179,8 @@ spec:
   selector:
     matchLabels:
       name: kube2iam
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -161,21 +193,26 @@ spec:
           imagePullPolicy: Always
           name: kube2iam
           args:
-            - "--app-port=8181"
-            - "--base-role-arn=<arn of worker nodes>"
+            - "--auto-discover-base-arn"
+            - "--auto-discover-default-role=true"
             - "--iptables=true"
             - "--host-ip=$(HOST_IP)"
-            - "--host-interface=weave"
+            - "--node=$(NODE_NAME)"
+            - "--host-interface=eni+"
             - "--verbose"
           env:
             - name: HOST_IP
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           ports:
             - containerPort: 8181
               hostPort: 8181
               name: http
           securityContext:
-            privileged: true
+              privileged: true
 ```
