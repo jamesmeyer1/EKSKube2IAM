@@ -17,6 +17,37 @@ https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
 ## Step 4: Follow the Instructions to install Kubectl outline here:
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
+## Launch Instances:
+To enable worker nodes to join your cluster
+
+    Download, edit, and apply the AWS IAM Authenticator configuration map.
+
+        Use the following command to download the configuration map:
+
+        curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
+
+        Open the file with your favorite text editor. Replace the <ARN of instance role (not instance profile)> snippet with the NodeInstanceRole value that you recorded in the previous procedure, and save the file.
+
+        Important
+
+        Do not modify any other lines in this file.
+
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: <ARN of instance role (not instance profile)>
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+```
+
 ## Step 5: 
 Use the AWS CLI update-kubeconfig command to create or update your kubeconfig for your cluster. 
 aws eks --region region update-kubeconfig --name cluster_name
