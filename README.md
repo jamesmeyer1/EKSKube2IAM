@@ -1,17 +1,17 @@
 # Securing Pods for EKS
 
 ## Step 1:
-Create a VPC for Kubernetes. 
+Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it. You can read about the subnet and VPC tagging performed here.
 CloudFormation: https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-sample.yaml
 VPC Tagging Requirement
 
-When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it. You can read about the subnet and VPC tagging performed here. 
+ 
 
 
-Step 2: Deploy EKS Cluster:
+## Step 2: Deploy EKS Cluster:
 Use Management Console
 
-Step 3: Update AWS ClI to latest version:
+## Step 3: Update AWS ClI to latest version:
 https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
 
 Step 3: Follow the Instructions to install Kubectl outline here:
