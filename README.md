@@ -42,7 +42,7 @@ The Kuberentes workers will need to assume a role. Please include the following 
 ```
 
 The roles that will be assumed must have a Trust Relationship which allows them to be assumed by the kubernetes worker role. 
-
+```
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -64,7 +64,7 @@ The roles that will be assumed must have a Trust Relationship which allows them 
     }
   ]
 }
-
+```
 
 Step 5: Launch nodes with IAM Role attached to node. This will be the IAM role the node uses. Another one will be created for Pods. You will need to enter the IAM role name to the nodes.  
 
@@ -79,7 +79,7 @@ Step 7: Deploy Application to test
 Securing pods on Kuberenetes:
 
 Task 1 Create a Role for IAM:
-'''
+```
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -120,4 +120,4 @@ spec:
               name: http
           securityContext:
             privileged: true
-'''
+```
