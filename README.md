@@ -106,7 +106,6 @@ The roles that will be assumed must have a Trust Relationship which allows them 
 
 Create S3 Policy for Pod and update trust with role from nodes in the CloudFormation stack. 
 
-```
 
 
 Step 5: Launch nodes with IAM Role attached to node. This will be the IAM role the node uses. Another one will be created for Pods. You will need to enter the IAM role name to the nodes.  
