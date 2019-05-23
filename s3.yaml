@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s3
+  labels:
+    name: s3
+  annotations:
+    iam.amazonaws.com/role: arn:aws:iam::794843820546:role/s3kube2iam
+spec:
+  containers:
+  - image: fstab/aws-cli
+    command:
+      - "/home/aws/aws/env/bin/aws"
+      - "s3"
+      - "ls"
+      - "jamesmeyer.org"
+    name: s3
