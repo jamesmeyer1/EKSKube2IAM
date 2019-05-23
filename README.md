@@ -28,6 +28,9 @@ https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
 ## Launch Instances:
+Link to current EKS Optimized AMIs: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
+Use the CloudFormation Stack called <final Name>
+        
 To enable worker nodes to join your cluster
 
 Download, edit, and apply the AWS IAM Authenticator configuration map.
