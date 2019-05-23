@@ -1,6 +1,6 @@
 # Securing Pods for EKS
 
-## Goals for Workshop
+## Goals of the Workshop
 This workshop will walk through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, role, and IAM policies that are required to apply IAM to a pod. 
 
 ## Step 1:
@@ -78,6 +78,7 @@ Step 7: Deploy Application to test
 Securing pods on Kuberenetes:
 
 Task 1 Create a Role for IAM:
+'''
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -118,3 +119,4 @@ spec:
               name: http
           securityContext:
             privileged: true
+'''
