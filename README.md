@@ -3,6 +3,15 @@
 ## Goals of the Workshop
 This workshop will walk through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, role, and IAM policies that are required to apply IAM to a pod. 
 
+Things I would copy down as you see or create them.
+1) EKS Cluster Name
+        You will need this when you create your nodes
+2) NodeInstanceRole
+        This will be available in Outputs after you launch the nodes
+3) Arn of the Role you create to access S3
+        You will need this for the applicatioin testing
+
+
 ## Step 1:
 Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it. You can read about the subnet and VPC tagging performed here.
 
@@ -93,6 +102,11 @@ The roles that will be assumed must have a Trust Relationship which allows them 
   ]
 }
 ```
+
+Create S3 Policy for Pod and update trust with role from nodes in the CloudFormation stack. 
+
+```
+
 
 Step 5: Launch nodes with IAM Role attached to node. This will be the IAM role the node uses. Another one will be created for Pods. You will need to enter the IAM role name to the nodes.  
 
