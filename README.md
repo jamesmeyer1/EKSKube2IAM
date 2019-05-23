@@ -28,7 +28,7 @@ Download, edit, and apply the AWS IAM Authenticator configuration map.
         Open the file with your favorite text editor. Replace the <ARN of instance role (not instance profile)> snippet with the NodeInstanceRole value that you recorded in the previous procedure, and save the file.
         Important
         Do not modify any other lines in this file.
-
+Replace instance role as outlined below:
 
 ```
 apiVersion: v1
