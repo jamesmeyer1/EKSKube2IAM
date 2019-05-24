@@ -3,7 +3,7 @@
 ## Goals of the Workshop
 This workshop will walk through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, roles, and IAM policies that are required to apply pod level security on EKS. 
 
-![Overview](https://github.com/meyjames/Kubernetes/blob/master/podlevelsecurity.tiff)
+![Overview](https://github.com/meyjames/Kubernetes/podlevelsecurity.tiff)
 
 ```
 Things I would copy down as you see or create them.
