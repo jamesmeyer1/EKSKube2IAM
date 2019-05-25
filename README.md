@@ -19,7 +19,7 @@ Things I would copy down as you see or create them.
 ## Step 1:
 Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it. You can read about the subnet and VPC tagging performed here. You can include this address or upload the file above with same name. 
 
-Launch Stack: ![stack](https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/template?stackName=stack_name&templateURL=http://dy9fuoxcazx2i.cloudfront.net/amazon-eks-vpc.yaml)
+Launch Stack: [stack](https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/template?stackName=stack_name&templateURL=http://dy9fuoxcazx2i.cloudfront.net/amazon-eks-vpc.yaml)
 
 ## Step 2: Deploy EKS Cluster:
 1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. You will need to select the subnets for your cluster. Your subnets will have tags that will define them. The format will be: stackname-Subnet#. Please select the three subnets that were created for you. 
