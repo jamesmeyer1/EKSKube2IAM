@@ -43,8 +43,7 @@ You must enable the worker nodes to join the cluster created.
 curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
 ```
 * Open the file with your favorite text editor. Replace the <ARN of instance role (not instance profile)> snippet with the NodeInstanceRole value that you recorded in the previous procedure, and save the file.
-        Important
-        Do not modify any other lines in this file.
+** Important: Do not modify any other lines in this file.**
 ```
 apiVersion: v1
 kind: ConfigMap
