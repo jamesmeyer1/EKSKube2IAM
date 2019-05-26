@@ -1,6 +1,6 @@
 # Securing Pods for EKS
 
-## Goals of the Workshop
+## Goal of the Workshop
 This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, roles, and IAM policies that are required to apply pod level security on EKS using [kube2iam](https://github.com/jtblin/kube2iam). 
 
 ![Overview of Architeture](https://github.com/meyjames/Kubernetes/blob/master/podlevel.png)
@@ -25,13 +25,13 @@ Launch Stack: [stack](https://us-east-2.console.aws.amazon.com/cloudformation/ho
 1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. You will need to select the subnets for your cluster. Your subnets will have tags that will define them. The format will be: stackname-Subnet#. Please select the three subnets that were created for you. 
 
 ## Step 3: Update AWS ClI to latest version:
-The instructions to install or update the AWS CLI are [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+Update or install the Latest [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for your operating system.
 
 ## Step 4: Install Kubectl based on your OS:
-EKS uses a command line utility called kubectl for communicating with the cluster API server. The instructions for installing for your specific operating system or package mananager are [here](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
+EKS uses a command line utility called kubectl for communicating with the cluster API server. The instructions for installing for your specific operating system or package mananager are [here](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html).
 
 ## Step 5: Launch Instances:
-Link to current EKS Optimized AMIs: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
+You need the current optimized AMI for the [Amazon EKS worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)
 Use the CloudFormation Stack called <final Name>
 
 ## Step 6: Congigure Instances to Join Cluster:
@@ -228,4 +228,38 @@ spec:
       - "<your bucket name here>"
     name: s3
 ```
+## Namespace Restrictions
+By using the flag --namespace-restrictions you can enable a mode in which the roles that pods can assume is restricted by an annotation on the pod's namespace. This annotation should be in the form of a json array.
 
+To allow the aws-cli pod specified above to run in the default namespace your namespace would look like the following.
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    iam.amazonaws.com/allowed-roles: |
+      ["role-arn"]
+  name: default
+```
+Note: You can also use glob-based matching for namespace restrictions, which works nicely with the path-based namespacing supported for AWS IAM roles.
+
+Example: to allow all roles prefixed with my-custom-path/ to be assumed by pods in the default namespace, the default namespace would be annotated as follows:
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    iam.amazonaws.com/allowed-roles: |
+      ["my-custom-path/*"]
+  name: default
+```
+If you prefer regexp to glob-based matching you can specify --namespace-restriction-format=regexp, then you can use a regexp in your annotation:
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    iam.amazonaws.com/allowed-roles: |
+      ["my-custom-path/.*"]
+  name: default
+```
