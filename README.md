@@ -25,10 +25,10 @@ Launch Stack: [stack](https://us-east-2.console.aws.amazon.com/cloudformation/ho
 1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. You will need to select the subnets for your cluster. Your subnets will have tags that will define them. The format will be: stackname-Subnet#. Please select the three subnets that were created for you. 
 
 ## Step 3: Update AWS ClI to latest version:
-https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
+The instructions to install or update the AWS CLI are [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 ## Step 4: Install Kubectl based on your OS:
-https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+EKS uses a command line utility called kubectl for communicating with the cluster API server. The instructions for installing for your specific operating system or package mananager are [here](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
 
 ## Step 5: Launch Instances:
 Link to current EKS Optimized AMIs: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
@@ -44,7 +44,7 @@ curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudform
 ```
 * Open the file with your favorite text editor. Replace the <ARN of instance role (not instance profile)> snippet with the NodeInstanceRole value that you recorded in the previous procedure, and save the file.
 
-** Important: Do not modify any other lines in this file. **
+
 
 ```
 apiVersion: v1
