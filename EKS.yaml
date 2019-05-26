@@ -7,12 +7,12 @@ Type: AWS::EKS::Cluster
     Properties:
     Name: prod
     Version: '1.11'
-    RoleArn: arn:aws:iam::012345678910:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBQ4PI
+    RoleArn: !ref ClusterRole
     ResourcesVpcConfig:
-        SecurityGroupIds:
-        - sg-6979fe18
+        SecurityGroupIds: 
+        - !ref ClusterControlPlanSecurityGroup
         SubnetIds:
-        - subnet-6782e71e
+        - Fn::InportValue: testexport-Subnet1subnet-6782e71e
         - subnet-e7e761ac
 
   ClusterRole:

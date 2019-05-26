@@ -1,7 +1,7 @@
 # Securing Pods for EKS
 
 ## Goals of the Workshop
-This workshop will walk through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, roles, and IAM policies that are required to apply pod level security on EKS. 
+This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, roles, and IAM policies that are required to apply pod level security on EKS using [kube2iam](https://github.com/jtblin/kube2iam). 
 
 ![Overview of Architeture](https://github.com/meyjames/Kubernetes/blob/master/podlevel.png)
 
@@ -27,7 +27,7 @@ Launch Stack: [stack](https://us-east-2.console.aws.amazon.com/cloudformation/ho
 ## Step 3: Update AWS ClI to latest version:
 https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
 
-## Step 4: Install Kubectl per your OS as outlined here:
+## Step 4: Install Kubectl based on your OS:
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
 ## Launch Instances:
