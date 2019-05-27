@@ -34,7 +34,7 @@ EKS uses a command line utility called kubectl for communicating with the cluste
 You need the current optimized AMI for the [Amazon EKS worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)
 Use the CloudFormation Stack called <final Name>
 
-## Step 6: Congigure Instances to Join Cluster:
+## Step 6: Configure Instances to Join Cluster:
         
 You must enable the worker nodes to join the cluster created. 
 
@@ -43,8 +43,6 @@ You must enable the worker nodes to join the cluster created.
 curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
 ```
 * Open the file with your favorite text editor. Replace the <ARN of instance role (not instance profile)> snippet with the NodeInstanceRole value that you recorded in the previous procedure, and save the file.
-
-
 
 ```
 apiVersion: v1
@@ -72,12 +70,13 @@ aws eks --region <region> update-kubeconfig --name <cluster_name>
 kubectl get svc
 ```
 When that command is successful, add a namespace for testing POD level IAM control.
-```kubectl create namespace test
+```
+kubectl create namespace test
 ```
 ## Step 7: Create IAM Policy for Nodes:
 IAM roles
 
-The Kuberentes workers will need to assume a role. Please include the following in a policy and create a role. Name it something you will remember. You will need it later. 
+The Kuberentes workers need permissions to assume a role. The ClouFormation stack create a role like the one below. It will assume the role you assign the Kubernetes Pod.  
 ```
 {
   "Version": "2012-10-17",
