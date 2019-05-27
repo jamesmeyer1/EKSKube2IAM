@@ -1,7 +1,7 @@
 # Securing Pods for EKS
 
 ## Goal of the Workshop
-This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with the proper tagging, configure kubectl locally, and create the trusts, roles, and IAM policies that are required to apply pod level security on EKS using [kube2iam](https://github.com/jtblin/kube2iam). 
+This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with proper tagging, configure kubectl, create the required trust, roles, and IAM policies that are required to apply pod level security on EKS using [kube2iam](https://github.com/jtblin/kube2iam). Pod level security allows you to assign IAM permissions to your application and with namespaces you can contorl which IAM roles your pod can use. We will walk through an example of accomplishing this now.
 
 ![Overview of Architeture](https://github.com/meyjames/Kubernetes/blob/master/podlevel.png)
 
@@ -76,7 +76,7 @@ kubectl create namespace test
 ## Step 7: Create IAM Policy for Nodes:
 IAM roles
 
-The Kuberentes workers need permissions to assume a role. The ClouFormation stack create a role like the one below. It will assume the role you assign the Kubernetes Pod.  
+You need to create a policy and role for the Pod to use. Create a policy like the one below and then create a role with the trust below.   
 ```
 {
   "Version": "2012-10-17",
