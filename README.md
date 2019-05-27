@@ -71,7 +71,9 @@ aws eks --region <region> update-kubeconfig --name <cluster_name>
 ```
 kubectl get svc
 ```
-
+When that command is successful, add a namespace for testing POD level IAM control.
+```kubectl create namespace test
+```
 ## Step 7: Create IAM Policy for Nodes:
 IAM roles
 
