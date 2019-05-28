@@ -222,6 +222,7 @@ spec:
     name: s3
 ```
 ## Namespace Restrictions
+Let's apply a namespace restriction based on the current role. 
 By using the flag --namespace-restrictions you can enable a mode in which the roles that pods can assume is restricted by an annotation on the pod's namespace. This annotation should be in the form of a json array.
 
 To allow the aws-cli pod specified above to run in the default namespace your namespace would look like the following.
@@ -231,9 +232,13 @@ kind: Namespace
 metadata:
   annotations:
     iam.amazonaws.com/allowed-roles: |
-      ["role-arn"]
+      ["put s3 arn here"]
   name: test
 ```
+Create an admin role and apply the namespace restriction and try again. Does it work? 
+kubectl delete -f path
+kubectl apply -f path
+kubectl logs <pod> --namespace=test
 
 You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions)
 
