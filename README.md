@@ -235,7 +235,5 @@ metadata:
   name: test
 ```
 
-You can read about path-based and glob-based matching for additional namespace restriction approaches on the kube2iam site. 
-
-Note: You can also use glob-based matching for namespace restrictions, which works nicely with the path-based namespacing supported for AWS IAM roles.[kube2iam](https://github.com/jtblin/kube2iam#namespace-restrictions)
+You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions)
 
