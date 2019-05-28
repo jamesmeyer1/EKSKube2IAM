@@ -209,6 +209,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: s3
+  namespace: test
   labels:
     name: s3
   annotations:
