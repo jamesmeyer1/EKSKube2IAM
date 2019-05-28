@@ -13,5 +13,4 @@ spec:
       - "/home/aws/aws/env/bin/aws"
       - "s3"
       - "ls"
-      - "jamesmeyer.org"
     name: s3

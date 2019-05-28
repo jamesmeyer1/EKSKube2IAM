@@ -232,27 +232,10 @@ metadata:
   annotations:
     iam.amazonaws.com/allowed-roles: |
       ["role-arn"]
-  name: default
+  name: test
 ```
-Note: You can also use glob-based matching for namespace restrictions, which works nicely with the path-based namespacing supported for AWS IAM roles.
 
-Example: to allow all roles prefixed with my-custom-path/ to be assumed by pods in the default namespace, the default namespace would be annotated as follows:
-```
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    iam.amazonaws.com/allowed-roles: |
-      ["my-custom-path/*"]
-  name: default
-```
-If you prefer regexp to glob-based matching you can specify --namespace-restriction-format=regexp, then you can use a regexp in your annotation:
-```
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    iam.amazonaws.com/allowed-roles: |
-      ["my-custom-path/.*"]
-  name: default
-```
+You can read about path-based and glob-based matching for additional namespace restriction approaches on the kube2iam site. 
+
+Note: You can also use glob-based matching for namespace restrictions, which works nicely with the path-based namespacing supported for AWS IAM roles.[kube2iam](https://github.com/jtblin/kube2iam#namespace-restrictions)
+
