@@ -76,7 +76,7 @@ kubectl create namespace test
 ## Step 7: Create IAM Policy for Nodes:
 IAM roles
 
-You need to create a policy and role for the Pod to use. Create a policy like the one below and then create a role with the trust below.   
+You need to create a policy and role for the Pod to use. Create a policy like the one below for EC2 and then create a role with the trust below.   
 ```
 {
   "Version": "2012-10-17",
@@ -117,10 +117,7 @@ The roles that will be assumed must have a Trust Relationship which allows them 
 }
 ```
 
-Create S3 Policy for Pod and update trust with role from nodes in the CloudFormation stack. 
-
-
-Step 6: Deploy kube2iam 
+Step 8: Deploy kube2iam 
 
 
 ```
@@ -203,7 +200,7 @@ spec:
           securityContext:
               privileged: true
 ```
-Step 7: Deploy Application to test namespace
+Step 9: Deploy Application to test namespace
 ```
 apiVersion: v1
 kind: Pod
@@ -213,7 +210,7 @@ metadata:
   labels:
     name: s3
   annotations:
-    iam.amazonaws.com/role: <arn application uses>
+    iam.amazonaws.com/role: <this is the arn for the role you created above>
 spec:
   containers:
   - image: fstab/aws-cli
