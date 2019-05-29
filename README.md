@@ -1,7 +1,7 @@
 # Securing Pods for EKS
 
 ## Goal of the Workshop
-This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with proper tagging, configure kubectl, create the required trust, roles, and IAM policies that are required to apply pod level security using [kube2iam](https://github.com/jtblin/kube2iam) for EKS. We will also apply IAM roles to a namespace, to show how you can restrict pods to only using specific IAM roles. 
+This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with proper tagging, configure kubectl, create the required trust, roles, and IAM policies that are required to apply pod level security using [kube2iam](https://github.com/jtblin/kube2iam) for EKS. We will also apply IAM roles to a namespace to show how you can restrict pods to only using specific IAM roles. 
 
 ![Overview of Architeture](https://github.com/meyjames/Kubernetes/blob/master/podlevel.png)
 
@@ -235,10 +235,16 @@ metadata:
       ["put s3 arn here"]
   name: test
 ```
-Create an admin role and apply the namespace restriction and try again. Does it work? 
-kubectl delete -f path
-kubectl apply -f path
+We need to test if the namespace control is working. Create a role with Administrative privileges and copy the are into the application above and redeploy. The steps to redeploy are below. 
+```
+kubectl delete -f <path to Application deployed above>
+```
+```
+kubectl apply -f <path to updated application deployed above>
+```
+```
 kubectl logs <pod> --namespace=test
+```
 
 You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions)
 
