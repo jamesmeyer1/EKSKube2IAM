@@ -24,6 +24,11 @@ Parameters:
     Default: 192.168.192.0/18
     Description: CidrBlock for subnet 03 within the VPC. This is used only if the region has more than 2 AZs.
 
+Mappings:
+  RegionMap:
+    us-east-2:
+      HVM64: ami-04ea7cb66af82ae4a
+
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:

@@ -6,10 +6,6 @@ Parameters:
     Description: The EC2 Key Pair to allow SSH access to the instances
     Type: AWS::EC2::KeyPair::KeyName
 
-  IAMRole:
-    Description: Please enter the name of the role you created
-    Type: String
-
   NodeImageId:
     Description: AMI id for the node instances.
     Type: AWS::EC2::Image::Id
@@ -181,7 +177,7 @@ Resources:
     Properties:
       Path: "/"
       Roles:
-        - !Ref IAMRole
+        - !Ref NodeInstanceRole
 
   NodeInstanceRole:
     Type: AWS::IAM::Role
@@ -198,6 +194,22 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
         - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+
+  Kube2IAMTrust:
+    Type: AWS::IAM::Policy 
+    Properties:
+      PolicyName: "kube2iampolicy"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action: "sts:AssumeRole"
+            Resource: "*"
+      Roles:
+        -
+          Ref: "NodeInstanceRole"
+
 
   NodeSecurityGroup:
     Type: AWS::EC2::SecurityGroup

@@ -1,7 +1,7 @@
 # Securing Pods for EKS
 
 ## Goal of the Workshop
-This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with proper tagging, configure kubectl, create the required trust, roles, and IAM policies that are required to apply pod level security on EKS using [kube2iam](https://github.com/jtblin/kube2iam). Pod level security allows you to assign IAM permissions to your application and with namespaces you can contorl which IAM roles your pod can use. We will walk through an example of accomplishing this now.git
+This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with proper tagging, configure kubectl, create the required trust, roles, and IAM policies that are required to apply pod level security using [kube2iam](https://github.com/jtblin/kube2iam) for EKS. We will also apply IAM roles to a namespace, to show how you can restrict pods to only using specific IAM roles. 
 
 ![Overview of Architeture](https://github.com/meyjames/Kubernetes/blob/master/podlevel.png)
 
@@ -17,12 +17,12 @@ Things I would copy down as you see them.
 
 # Environment Setup:
 ## Step 1:
-Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it. You can read about the subnet and VPC tagging performed here. You can include this address or upload the file above with same name. 
+Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
 
-Launch Stack: [stack](https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/template?stackName=stack_name&templateURL=http://dy9fuoxcazx2i.cloudfront.net/amazon-eks-vpc.yaml)
+Launch Stack: For now please launch amazon-eks-vpc2.yaml, I will update with an automated link from my bucket later. [stack](https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/template?stackName=stack_name&templateURL=http://dy9fuoxcazx2i.cloudfront.net/amazon-eks-vpc.yaml)
 
 ## Step 2: Deploy EKS Cluster:
-1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. You will need to select the subnets for your cluster. Your subnets will have tags that will define them. The format will be: stackname-Subnet#. Please select the three subnets that were created for you. 
+1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. The format for you subnets will be: stackname-Subnet#. Please select the three subnets that were created for you based on name.
 
 ## Step 3: Update AWS ClI to latest version:
 Update or install the Latest [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for your operating system.
@@ -32,7 +32,7 @@ EKS uses a command line utility called kubectl for communicating with the cluste
 
 ## Step 5: Launch Instances:
 You need the current optimized AMI for the [Amazon EKS worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)
-Use the CloudFormation Stack called <final Name>
+Use the CloudFormation Stack called nodesWorkshop2.yaml
 
 ## Step 6: Configure Instances to Join Cluster:
         
