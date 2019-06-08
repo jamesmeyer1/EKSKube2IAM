@@ -17,16 +17,17 @@ Things I would copy down as you see them.
 
 # Environment Setup:
 ## Step 1:
-Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
+Download and the repository so you can edit and deploy stacks locally. We begin by creating a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
 
-Launch Stack: For now please launch using amazon-eks-vpc.yaml. I will update with an automated link from my bucket later.
+Launch Stack: Launch using amazon-eks-vpc.yaml. 
+
 
 ## Step 2: Deploy EKS Cluster:
-1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. The format for you subnets will be: stackname-Subnet#. Please select the three subnets that were created for you based on name. 
+1) Select EKS from Services and deploy your EKS Cluster. Make sure to check the region in the AWS Management Console. We are deploying to US East (Ohio) us-east-2. The format for you subnets will be: stackname-Subnet#. Please select the three subnets that were created for you based on name. 
 
 2) Select the security group with <stackname-ControlPlaneSecurityGroup-####>
 
-Creating an EKS cluster can take up to 15 minutes. We can use this time to update our CLI and install Kubectl.
+Creating an EKS cluster can take up to 15 minutes. We can use this time to update our CLI and install Kubectl which are required for this exercise. 
 
 ## Step 3: Update AWS ClI to latest version:
 Update or install the Latest [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for your operating system.
@@ -36,9 +37,7 @@ EKS uses a command line utility called kubectl for communicating with the cluste
 
 ## Step 5: Launch Instances:
 You need the current optimized AMI for the [Amazon EKS worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)
-Use the CloudFormation Stack called nodesWorkshop2.yaml
-
-Include the arn of the role you created above. 
+Use the CloudFormation Stack called nodesWorkshop2.yaml and fill in the required information. 
 
 ## Step 6: Configure Instances to Join Cluster:
         
@@ -128,7 +127,7 @@ The roles that will be assumed must have a Trust Relationship which allows them 
 }
 ```
 
-Step 8: Deploy kube2iam into your cluster. You do not need to edit anything here. 
+Step 8: Deploy kube2iam to your cluster. You do not need to edit anything here. 
 
 
 ```
@@ -189,6 +188,7 @@ spec:
           name: kube2iam
           args:
             - "--auto-discover-base-arn"
+            - "--namespace-restrictions"
             - "--auto-discover-default-role=true"
             - "--iptables=true"
             - "--host-ip=$(HOST_IP)"
@@ -209,7 +209,7 @@ spec:
               hostPort: 8181
               name: http
           securityContext:
-              privileged: true
+            privileged: true
 ```
 Step 9: Deploy Application to test namespace. You need to assign the arn for the role you created above before deploying. 
 ```
@@ -229,12 +229,10 @@ spec:
       - "/home/aws/aws/env/bin/aws"
       - "s3"
       - "ls"
-      - "<your bucket name here>"
     name: s3
 ```
 ## Namespace Restrictions
-Let's apply a namespace restriction based on the current role. 
-By using the flag --namespace-restrictions you can enable a mode in which the roles that pods can assume is restricted by an annotation on the pod's namespace. This annotation should be in the form of a json array.
+Let's apply a namespace restriction based on the current role. By using the flag --namespace-restrictions you can enable a mode in which the roles that pods can assume is restricted by an annotation on the pod's namespace. This annotation should be in the form of a json array.
 
 To allow the aws-cli pod specified above to run in the default namespace your namespace would look like the following.
 ```
