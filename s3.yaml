@@ -6,7 +6,7 @@ metadata:
   labels:
     name: s3
   annotations:
-    iam.amazonaws.com/role: arn for S3 accesss 
+    iam.amazonaws.com/role: <s3 permission ARN here>
 spec:
   containers:
   - image: fstab/aws-cli

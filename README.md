@@ -19,10 +19,14 @@ Things I would copy down as you see them.
 ## Step 1:
 Create a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
 
-Launch Stack: For now please launch amazon-eks-vpc.yaml, I will update with an automated link from my bucket later. [stack](https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/template?stackName=stack_name&templateURL=http://dy9fuoxcazx2i.cloudfront.net/amazon-eks-vpc.yaml)
+Launch Stack: For now please launch using amazon-eks-vpc.yaml. I will update with an automated link from my bucket later.
 
 ## Step 2: Deploy EKS Cluster:
-1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. The format for you subnets will be: stackname-Subnet#. Please select the three subnets that were created for you based on name.
+1) Check the region in the Management Console. We are deploying to US East (Ohio) us-east-2. The format for you subnets will be: stackname-Subnet#. Please select the three subnets that were created for you based on name. 
+
+2) Select the security group with <stackname-ControlPlaneSecurityGroup-####>
+
+Creating an EKS cluster can take up to 15 minutes. We can use this time to update our CLI and install Kubectl.
 
 ## Step 3: Update AWS ClI to latest version:
 Update or install the Latest [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for your operating system.
@@ -33,6 +37,8 @@ EKS uses a command line utility called kubectl for communicating with the cluste
 ## Step 5: Launch Instances:
 You need the current optimized AMI for the [Amazon EKS worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)
 Use the CloudFormation Stack called nodesWorkshop2.yaml
+
+Include the arn of the role you created above. 
 
 ## Step 6: Configure Instances to Join Cluster:
         
@@ -66,6 +72,11 @@ https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
 ```
 aws eks --region <region> update-kubeconfig --name <cluster_name>
 ```
+
+```
+kubectl apply -f aws-auth-cm.yaml
+```
+
 ```
 kubectl get svc
 ```
@@ -76,7 +87,7 @@ kubectl create namespace test
 ## Step 7: Create IAM Policy for Nodes:
 IAM roles
 
-You need to create a policy and role for the Pod to use. Create a policy like the one below for EC2 and then create a role with the trust below.   
+The following policy was created in the CloudFormation stack for you. This is required to allow the worker nodes to assume the role you assign to the pods. You will configure the trust and policy for the pods below. 
 ```
 {
   "Version": "2012-10-17",
@@ -92,7 +103,7 @@ You need to create a policy and role for the Pod to use. Create a policy like th
 }
 ```
 
-The roles that will be assumed must have a Trust Relationship which allows them to be assumed by the kubernetes worker role. 
+The roles that will be assumed must have a Trust Relationship which allows them to be assumed by the kubernetes worker role. Create a role with S3 permissions and edit the Trust Relationship to include the following. 
 ```
 {
   "Version": "2012-10-17",
@@ -117,7 +128,7 @@ The roles that will be assumed must have a Trust Relationship which allows them 
 }
 ```
 
-Step 8: Deploy kube2iam 
+Step 8: Deploy kube2iam into your cluster. You do not need to edit anything here. 
 
 
 ```
@@ -200,7 +211,7 @@ spec:
           securityContext:
               privileged: true
 ```
-Step 9: Deploy Application to test namespace
+Step 9: Deploy Application to test namespace. You need to assign the arn for the role you created above before deploying. 
 ```
 apiVersion: v1
 kind: Pod
@@ -235,12 +246,12 @@ metadata:
       ["put s3 arn here"]
   name: test
 ```
-We need to test if the namespace control is working. Create a role with Administrative privileges and copy the are into the application above and redeploy. The steps to redeploy are below. 
+We need to test if the namespace control is working. Create a role with Administrative privileges and copy the ARN into S3admin.yaml and redeploy. The steps to redeploy are below. 
 ```
-kubectl delete -f <path to Application deployed above>
+kubectl delete -f <path to Application deployed above/s3.yaml>
 ```
 ```
-kubectl apply -f <path to updated application deployed above>
+kubectl apply -f <path to updated application deployed above/s3admin.yaml>
 ```
 ```
 kubectl logs <pod> --namespace=test
