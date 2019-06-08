@@ -231,10 +231,16 @@ spec:
       - "ls"
     name: s3
 ```
+
+Test that everything is working be executing the command below. If it is working it should list the buckets in your account. 
+```
+kubectl logs s3 --namespace=test
+```
+
 ## Namespace Restrictions
 Let's apply a namespace restriction based on the current role. By using the flag --namespace-restrictions you can enable a mode in which the roles that pods can assume is restricted by an annotation on the pod's namespace. This annotation should be in the form of a json array.
 
-To allow the aws-cli pod specified above to run in the default namespace your namespace would look like the following.
+To allow the aws-cli pod specified above to run in the test namespace you should apply the following to your test namespace. Remember to replace the ARN with the S3 role you created earlier. 
 ```
 apiVersion: v1
 kind: Namespace
@@ -244,6 +250,7 @@ metadata:
       ["put s3 arn here"]
   name: test
 ```
+
 We need to test if the namespace control is working. Create a role with Administrative privileges and copy the ARN into S3admin.yaml and redeploy. The steps to redeploy are below. 
 ```
 kubectl delete -f <path to Application deployed above/s3.yaml>

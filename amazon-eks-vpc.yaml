@@ -24,11 +24,6 @@ Parameters:
     Default: 192.168.192.0/18
     Description: CidrBlock for subnet 03 within the VPC. This is used only if the region has more than 2 AZs.
 
-Mappings:
-  RegionMap:
-    us-east-2:
-      HVM64: ami-04ea7cb66af82ae4a
-
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -192,28 +187,6 @@ Outputs:
   SecurityGroups:
     Description: Security group for the cluster control plane communication with worker nodes
     Value: !Join [ ",", [ !Ref ControlPlaneSecurityGroup ] ]
-    Export: 
-      Name: !Sub ${AWS::StackName}-SG
-
-
-  Subnet1:
-      Description: Public Subnet for Cloud9 Instance
-      Value: !Ref Subnet01
-      Export:
-        Name: !Sub ${AWS::StackName}-Subnet1
-
-  Subnet2:
-      Description: Public Subnet for Cloud9 Instance
-      Value: !Ref Subnet02
-      Export:
-        Name: !Sub ${AWS::StackName}-Subnet2
-
-  Subnet3:
-      Description: Public Subnet for Cloud9 Instance
-      Value: !Ref Subnet03
-      Export:
-        Name: !Sub ${AWS::StackName}-Subnet3
-
 
   VpcId:
     Description: The VPC Id
