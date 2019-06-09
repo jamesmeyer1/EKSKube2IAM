@@ -54,7 +54,7 @@ spec:
           name: kube2iam
           args:
             - "--auto-discover-base-arn"
-            - "--namespace-restrictions"
+            - "--namespace-restrictions=true"
             - "--auto-discover-default-role=true"
             - "--iptables=true"
             - "--host-ip=$(HOST_IP)"
