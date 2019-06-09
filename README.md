@@ -267,6 +267,6 @@ Deploy the namespace settings above:
 ```
 kubectl apply -f <pathto/namespace.yaml>
 ```
-Redploy s3.yaml. You should no longer see your buckets. You can change to allowed ARNs in the namespace to allow more and/or different roles as needed. 
+Redploy s3.yaml. You should no longer see your buckets. You can change the allowed ARNs in the namespace to allow more and/or different roles as needed. 
 
 You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions)
