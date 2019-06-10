@@ -1,7 +1,7 @@
 # Securing Pods for EKS
 
 ## Goal of the Workshop
-This project will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with proper tagging, configure kubectl, create the required trust, roles, and IAM policies that are required to apply pod level security using [kube2iam](https://github.com/jtblin/kube2iam) for EKS. We will also apply IAM roles to a namespace to show how you can restrict pods to only using specific IAM roles. 
+This builder session will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with proper tagging, configure kubectl, create the required trust, roles, and IAM policies that are required to apply pod level security using [kube2iam](https://github.com/jtblin/kube2iam) for EKS. We will also apply IAM roles to a namespace to restrict pods to a specific IAM role.  
 
 ![Overview of Architeture](https://github.com/meyjames/Kubernetes/blob/master/podlevel.png)
 
@@ -10,9 +10,9 @@ Things I would copy down as you see them.
 1) EKS Cluster Name
         You will need this when you create your nodes
 2) NodeInstanceRole
-        This will be available in Outputs after you launch the nodes
+        This will be available in Outputs after you launch the nodes from CloudFormation
 3) Arn of the Role you create to access S3
-        You will need this for the applicatioin testing
+        You will need this for the application testing and to configure the test namespace
 ```
 
 # Environment Setup:
@@ -21,12 +21,12 @@ Download this repository so you can edit and deploy stacks locally.
 
 We begin by creating a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
 
-Launch Stack: Launch using amazon-eks-vpc.yaml. 
+Create the VPC using the amazon-eks-vpc.yaml for CloudFormation.  
 
 
 ## Step 2: 
 Deploy EKS Cluster:
-1) Select EKS from Services and deploy your EKS Cluster. Make sure to check the region in the AWS Management Console. We are deploying to US East (Ohio) us-east-2. The format for you subnets will be: stackname-Subnet#. Please select the three subnets that were created for you based on name. 
+1) Select EKS from Services and deploy your EKS Cluster. Make sure to check the region in the AWS Management Console. We are deploying to US East (Ohio) us-east-2. The format for you subnets will be: stackname-Subnet#. Please select the three subnets that were created for based on stackname.  
 
 * Select the VPC with stackname-VPC
 * Select the security group with <stackname-ControlPlaneSecurityGroup-####>
@@ -50,13 +50,13 @@ Use the CloudFormation Stack called nodesWorkshop.yaml and fill in the required 
 ## Step 6: 
 Configure Instances to Join Cluster:
         
-You must enable the worker nodes to join the cluster created. 
+You must enable the worker nodes to join the cluster you created. 
 
 * Download, edit, and apply the AWS IAM Authenticator configuration map. Use the following command to download the configuration map:
 ```
 curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
 ```
-* Open the file with your favorite text editor. Replace the <ARN of instance role (not instance profile)> snippet with the NodeInstanceRole value that you recorded in the previous procedure, and save the file.
+* Open the file with your favorite text editor. Replace the <ARN of instance role (not instance profile)> snippet with the NodeInstanceRole value that you recorded in the previous procedure and save the file. This ARN can be found under Outputs in CloudFormation or from the Description section of one of the EC2 instances created for you.  
 
 ```
 apiVersion: v1
@@ -96,7 +96,7 @@ kubectl create namespace test
 Create IAM Policy for Nodes:
 IAM roles
 
-The following policy was created in the CloudFormation stack for you. This is required to allow the worker nodes to assume the role you assign to the pods. You will configure the trust and policy for the pods below. 
+The following policy was created in the CloudFormation stack for you. This is required to allow the worker nodes to assume the role you assign to the pods. You will need to configure the trust and policy for the role below that will be assigned to your pod. 
 ```
 {
   "Version": "2012-10-17",
@@ -129,7 +129,7 @@ The roles that will be assumed must have a Trust Relationship which allows them 
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::123456789012:role/kubernetes-worker-role"
+        "AWS": "<replace with NodeInstanceRole>"
       },
       "Action": "sts:AssumeRole"
     }
@@ -138,7 +138,7 @@ The roles that will be assumed must have a Trust Relationship which allows them 
 ```
 
 ## Step 9: 
-Deploy kube2iam to your cluster. You do not need to edit anything here. 
+Deploy kube2iam to your cluster. You do not need to edit anything here. You will notice we have configured the flag --namespace-restrictions=true.
 
 
 ```
@@ -245,13 +245,13 @@ spec:
     name: s3
 ```
 
-Test that everything is working be executing the command below. We have the flag --namespace-restrictions=true so you should not see the buckets until you update the namespaces with the correct IAM role.   
+If you execute the command below will you see your buckets? Why or why not?   
 ```
 kubectl logs s3 --namespace=test
 ```
 
 ## Namespace Restrictions
-Let's apply a namespace restriction based on the current role. By using the flag --namespace-restrictions you can enable a mode in which the roles that pods can assume is restricted by the annotation on the pod's namespace. This annotation should be in the form of a json array.
+By using the flag --namespace-restrictions you can enable a mode in which the roles that pods can assume is restricted by the annotation on the pod's namespace. This annotation should be in the form of a json array and an example is below. We will add the role we created earlier now. 
 
 ## Step 11: 
 To allow the aws-cli pod specified above to run in the test namespace you should replace the ARN with the S3 role created earlier. This file is called namespace.yaml. 
@@ -269,6 +269,6 @@ Deploy the namespace settings above:
 ```
 kubectl apply -f <pathto/namespace.yaml>
 ```
-Redploy s3.yaml. You should see your buckets. You can change the allowed ARNs in the namespace to allow more and/or different roles as needed. 
+Redploy s3.yaml with the namespace role applied. Can you see your buckets now? 
 
-You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions)
+You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions). This was one approach to apply IAM role namespace restrictions on a pod. 
