@@ -19,35 +19,41 @@ Things I would copy down as you see them.
 ## Step 1:
 Download this repository so you can edit and deploy stacks locally. 
 
-We begin by creating a VPC for Kubernetes. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
+We begin by creating a VPC for Kubernetes in the US East (Ohio) region. Please check the region before you begin. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
 
 Create the VPC using the amazon-eks-vpc.yaml for CloudFormation.  
 
+## Step 2:
+If you have never launched and EKS instance you will need to create a role as outline [here](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html). It provides the IAM policies you need to associate which are below too.
+* AmazonEKSServicePolicy
+* AmazonEKSClusterPolicy
 
-## Step 2: 
+## Step 3: 
 Deploy EKS Cluster:
 1) Select EKS from Services and deploy your EKS Cluster. Make sure to check the region in the AWS Management Console. We are deploying to US East (Ohio) us-east-2. The format for you subnets will be: stackname-Subnet#. Please select the three subnets that were created for based on stackname.  
 
 * Select the VPC with stackname-VPC
-* Select the security group with <stackname-ControlPlaneSecurityGroup-####>
-* Select the stackname-ControlPlaneSecurityGorup-####
+* Select the security group with stackname-ControlPlaneSecurityGroup-####
 
 Creating an EKS cluster can take up to 15 minutes. We can use this time to update our CLI and install Kubectl which are required for this exercise. 
 
-## Step 3: 
+## Step 4: 
 Update AWS ClI to latest version:
 Update or install the Latest [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for your operating system.
 
-## Step 4: 
+## Step 5: 
 Install Kubectl based on your OS:
 EKS uses a command line utility called kubectl for communicating with the cluster API server. The instructions for installing your specific operating system or package mananager are [here](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html).
 
-## Step 5: 
+## Step 6:
+Create a key pair before launching the instances as outlined [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+
+## Step 7: 
 Launch Instances:
 You need the current optimized AMI for the [Amazon EKS worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)
 Use the CloudFormation Stack called nodesWorkshop.yaml and fill in the required information. 
 
-## Step 6: 
+## Step 8: 
 Configure Instances to Join Cluster:
         
 You must enable the worker nodes to join the cluster you created. 
@@ -73,7 +79,7 @@ data:
         - system:nodes
 ```
 
-## Step 7: 
+## Step 9: 
 Use the AWS CLI to create or update your kubeconfig for your cluster. This will combine other contexts. You can read more about this process including troubleshooting tips here.
 https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
 
@@ -92,7 +98,7 @@ When that command is successful, add a namespace for testing POD level IAM contr
 ```
 kubectl create namespace test
 ```
-## Step 8: 
+## Step 10: 
 Create IAM Policy for Nodes:
 IAM roles
 
@@ -222,8 +228,8 @@ spec:
           securityContext:
             privileged: true
 ```
-## Step 10: 
-Deploy Application to test namespace. You need to assign the arn for the role you created above before deploying. 
+## Step 11: 
+Deploy Application to test namespace. You need to assign the ARN with S3 permissions and the trust that you created above here.  
 
 ```
 apiVersion: v1
@@ -234,7 +240,7 @@ metadata:
   labels:
     name: s3
   annotations:
-    iam.amazonaws.com/role: <this is the ARN for the role you created above>
+    iam.amazonaws.com/role: <this is the ARN for the role you created with S3 permissions and >
 spec:
   containers:
   - image: fstab/aws-cli
@@ -270,5 +276,10 @@ Deploy the namespace settings above:
 kubectl apply -f <pathto/namespace.yaml>
 ```
 Redploy s3.yaml with the namespace role applied. Can you see your buckets now? 
+
+##Step 12:
+Create another role with the same permissions and trust policy as above and redeploy s3.yaml with that ARN. 
+* What are the results?
+* How can you make it work with the new ARN?
 
 You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions). This was one approach to apply IAM role namespace restrictions on a pod. 
