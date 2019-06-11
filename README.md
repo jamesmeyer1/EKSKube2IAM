@@ -277,7 +277,7 @@ kubectl apply -f <pathto/namespace.yaml>
 ```
 Redploy s3.yaml with the namespace role applied. Can you see your buckets now? 
 
-##Step 12:
+## Step 12:
 Create another role with the same permissions and trust policy as above and redeploy s3.yaml with that ARN. 
 * What are the results?
 * How can you make it work with the new ARN?
