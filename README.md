@@ -143,7 +143,7 @@ The following policy was created in the CloudFormation stack for you. This is re
 }
 ```
 
-## Step 9: 
+## Step 11: 
 Deploy kube2iam to your cluster. You do not need to edit anything here. You will notice we have configured the flag --namespace-restrictions=true.
 
 ```
@@ -227,7 +227,7 @@ spec:
           securityContext:
             privileged: true
 ```
-## Step 11: 
+## Step 12: 
 I have included a way to test your S3 permissions. You need to replace the ARN with the role you create above with S3 permissions.   
 
 ```
@@ -262,7 +262,7 @@ kubectl logs s3 --namespace=test
 ## Namespace Restrictions
 By using the flag --namespace-restrictions you can enable a mode in which the roles that pods can assume is restricted by the annotation on the pod's namespace. This annotation should be in the form of a json array and an example is below. We will add the role ARM we created earlier to the namespace so it has an allowed role. We will be allowing access to S3.
 
-## Step 11: 
+## Step 13: 
 To allow the aws-cli pod specified above to run in the test namespace you should replace the ARN with the S3 role created earlier. This file is called namespace.yaml. Replace the ARN and deploy.
 
 ```
@@ -281,7 +281,7 @@ kubectl apply -f <pathto/namespace.yaml>
 ```
 Redploy S3.yaml now that a role has been configured. Can you see your buckets? 
 
-## Step 12:
+## Step 14:
 Create another role with the same permissions and trust policy as above and redeploy s3.yaml with that ARN. 
 * What are the results?
 * How can you make it work with the new ARN?
