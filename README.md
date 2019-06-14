@@ -1,6 +1,6 @@
 # Securing Pods for EKS
 
-## Goal of the Workshop
+## Goal of the Builder Session
 This builder session will take you through the process of securing Kubernete Pods running on Amazon Elastic Kubernetes Service (EKS). We will setup a VPC with proper tagging, configure kubectl, create the required trust, roles, and IAM policies that are required to apply pod level security using [kube2iam](https://github.com/jtblin/kube2iam) for EKS. We will also apply IAM roles to a namespace to restrict pods to a specific IAM role.  
 
 ![Overview of Architeture](https://github.com/meyjames/Kubernetes/blob/master/podlevel.png)
@@ -102,7 +102,7 @@ kubectl create namespace test
 Create IAM Policy for Nodes:
 IAM roles
 
-Create a role with S3 permissions and edit the Trust Relationship to include the following. The roles that will be assumed must have a Trust Relationship which allows them to be assumed by the kubernetes worker role. 
+Create a role with S3 permissions and edit the Trust Relationship to include the following. The roles that will be assumed must have a Trust Relationship which allows them to be assumed by the kubernetes worker role. This is the same role you used in Step 8.
 ```
 {
   "Version": "2012-10-17",
@@ -283,9 +283,8 @@ Redploy S3.yaml now that a role has been configured. Can you see your buckets?
 
 ## Step 14:
 Create another role with the same permissions and trust policy as above and redeploy s3.yaml with that ARN. 
-* What are the results?
-* How can you make it work with the new ARN?
+* Can you make it work with the new ARN?
 
 You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions). This was one approach to apply IAM role namespace restrictions on a pod. 
 
-IAM roles for pods provides the level of security certain workloads require. Instead of assuming the worker node role for all pods you can customize the permissions a pod can assume. Hopefully this workshop provides the foundation for you to extend new levels of controls to your EKS environment at the pod level. Please feel free to discuss questions concerns with us before you leave. 
+IAM roles for pods provides the level of security certain workloads require. Instead of assuming the worker node role for all pods you can customize the permissions a pod can assume. Hopefully this workshop provides the foundation for you to extend new levels of controls to your EKS environment at the pod level.  
