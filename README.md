@@ -102,7 +102,7 @@ kubectl create namespace test
 Create IAM Policy for Nodes:
 IAM roles
 
-Create a role with S3 permissions and edit the Trust Relationship to include the following. The roles that will be assumed must have a Trust Relationship which allows them to be assumed by the kubernetes worker role. This is the same role you used in Step 8.
+Create a role with S3 permissions and edit the Trust Relationship to include the following. The role that will be assumed must have a Trust Relationship which allows them to be assumed by the Kubernetes worker node. Replace the Principal below with the role's ARN assigned to the worker nodes. 
 ```
 {
   "Version": "2012-10-17",
@@ -228,7 +228,7 @@ spec:
             privileged: true
 ```
 ## Step 12: 
-I have included a way to test your S3 permissions. You need to replace the ARN with the role you create above with S3 permissions.   
+I have included a way to test your S3 permissions. Replace the role with the role ARN you created above with S3 permissions.   
 
 ```
 apiVersion: v1
