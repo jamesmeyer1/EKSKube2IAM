@@ -21,7 +21,10 @@ Download this repository so you can edit and deploy stacks locally.
 
 We begin by creating a VPC for Kubernetes in the US East (Ohio) region. Please check the region in the Management Console before you begin. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
 
-Create the VPC using the amazon-eks-vpc.yaml for CloudFormation.  
+Create the VPC using the CloudFormation stack listed below.
+```
+amazon-eks-vpc.yaml
+```  
 
 ## Step 2:
 If you have never launched and EKS instance you will need to create a role as outlined [here](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html). It provides the IAM policies you need to associate to your role, which are below too.
@@ -52,7 +55,12 @@ Create a key pair before launching the instances as outlined [here](https://docs
 Launch Instances:
 After the EKS cluster becomes available you can launch your instances. You need the current optimized AMI for the [Amazon EKS worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)
 
-Use the CloudFormation Stack called nodesWorkshop.yaml and fill in the required information. 
+Use the CloudFormation Stack below to build out the work nodes. 
+```
+nodesWorkshop.yaml 
+
+Please name your cluster the same as in the previous steps!!
+```
 
 ## Step 8: 
 Configure Instances to Join Cluster:
