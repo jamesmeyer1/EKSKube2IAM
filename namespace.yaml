@@ -4,5 +4,5 @@ metadata:
   namespace: test
   annotations:
     iam.amazonaws.com/allowed-roles: |
-      ["arn:aws:iam::794843820546:role/c"]
+      ["approved ARN here"]
   name: test
