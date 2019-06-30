@@ -4,5 +4,9 @@ metadata:
   namespace: test
   annotations:
     iam.amazonaws.com/allowed-roles: |
+<<<<<<< HEAD
       ["approved ARN here"]
+=======
+      ["replace with S3 ARN"]
+>>>>>>> upstream/master
   name: test
