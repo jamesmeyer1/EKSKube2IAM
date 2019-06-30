@@ -19,7 +19,6 @@ Things I would copy down as you see them.
 ## Step 1:
 Download this repository so you can edit and deploy stacks locally. 
 
-<<<<<<< HEAD
 We begin by creating a VPC for Kubernetes in the US East (Ohio) region. Please check the region before you begin. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
 =======
 We begin by creating a VPC for Kubernetes in the US East (Ohio) region. Please check the region in the Management Console before you begin. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
@@ -31,11 +30,9 @@ amazon-eks-vpc.yaml
 ```  
 
 ## Step 2:
-<<<<<<< HEAD
 If you have never launched and EKS instance you will need to create a role as outline [here](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html). It provides the IAM policies you need to associate which are below too.
 =======
 If you have never launched and EKS instance you will need to create a role as outlined [here](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html). It provides the IAM policies you need to associate to your role, which are below too.
->>>>>>> upstream/master
 * AmazonEKSServicePolicy
 * AmazonEKSClusterPolicy
 
@@ -49,7 +46,6 @@ Deploy EKS Cluster:
 Creating an EKS cluster can take up to 15 minutes. We can use this time to update our CLI, install Kubectl, and create a key pair which are required for this exercise. 
 
 ## Step 4: 
-<<<<<<< HEAD
 Update AWS CLI to latest version:
 Update or install the Latest [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for your operating system.
 
@@ -59,15 +55,10 @@ If you are unable to install version 1.16.156 or greater of the AWS CLI on your 
 Update AWS ClI to latest version:
 Update or install the Latest [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for your operating system.
 
->>>>>>> upstream/master
 ## Step 5: 
 Install Kubectl based on your OS:
 EKS uses a command line utility called kubectl for communicating with the cluster API server. The instructions for installing your specific operating system or package mananager are [here](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html).
 
-<<<<<<< HEAD
-
-=======
->>>>>>> upstream/master
 ## Step 6:
 Create a key pair before launching the instances as outlined [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
 
@@ -79,12 +70,9 @@ Use the CloudFormation Stack below to build out the work nodes.
 ```
 nodesWorkshop.yaml 
 
-<<<<<<< HEAD
-=======
 Please name your cluster the same as in the previous steps!!
 ```
 
->>>>>>> upstream/master
 ## Step 8: 
 Configure Instances to Join Cluster:
         
@@ -112,12 +100,7 @@ data:
 ```
 
 ## Step 9: 
-<<<<<<< HEAD
-Use the AWS CLI to create or update your kubeconfig for your cluster. This will combine other contexts. You can read more about this process including troubleshooting tips here.
-https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
-=======
 Use the AWS CLI to create or update your kubeconfig for your cluster. This will combine other contexts. You can read more about this process including troubleshooting tips [here](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)
->>>>>>> upstream/master
 
 ```
 aws eks --region <region> update-kubeconfig --name <cluster_name>
@@ -179,17 +162,14 @@ The following policy was created in the CloudFormation stack for you. This is re
 }
 ```
 
-<<<<<<< HEAD
-The command to deploy kube2iam is below. You can read through what that includes below it.
-
-```
-kubectl apply -f <pathto/kube2iam.yaml>
-```
-=======
 ## Step 11: 
-Deploy kube2iam to your cluster. You do not need to edit anything here. You will notice we have configured the flag --namespace-restrictions=true.
->>>>>>> upstream/master
+Deploy kube2iam to your cluster. You do not need to edit anything here. You will notice we have configured the flag --namespace-restrictions=true below.
 
+Command to Deploy: 
+```
+kubectl apply -f <pathto>/kube2iam.yaml>
+```
+This is what the file has in it. No need to edit it.
 ```
 ---
 apiVersion: v1
@@ -271,13 +251,11 @@ spec:
           securityContext:
             privileged: true
 ```
-<<<<<<< HEAD
 ## Step 11: 
 Deploy Application to test namespace. You need to assign the arn for the role you created above before deploying. 
-=======
+
 ## Step 12: 
 I have included a way to test your S3 permissions. Replace the role with the role ARN you created above with S3 permissions.   
->>>>>>> upstream/master
 
 ```
 apiVersion: v1
@@ -337,3 +315,9 @@ Create another role with the same permissions and trust policy as above and rede
 You can read about path-based and glob-based matching for additional namespace restriction approaches on the [kube2iam site](https://github.com/jtblin/kube2iam#namespace-restrictions). This was one approach to apply IAM role namespace restrictions on a pod. 
 
 IAM roles for pods provides the level of security certain workloads require. Instead of assuming the worker node role for all pods you can customize the permissions a pod can assume. Hopefully this workshop provides the foundation for you to extend new levels of controls to your EKS environment at the pod level.  
+
+## To Delete Your Resources:
+1) Delete CloudFormation stack created with nodesWorkshop.yaml
+2) Delete EKS cluster
+3) Delete CloudFormation stack created with amazon-eks-vpc.yaml
+4) Delete any roles you created
