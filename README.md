@@ -20,9 +20,8 @@ Things I would copy down as you see them.
 Download this repository so you can edit and deploy stacks locally. 
 
 We begin by creating a VPC for Kubernetes in the US East (Ohio) region. Please check the region before you begin. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
-=======
+
 We begin by creating a VPC for Kubernetes in the US East (Ohio) region. Please check the region in the Management Console before you begin. When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the appropriate way so Kubernetes can discover them. You can read about the subnet and VPC tagging performed [here](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging). For this example the default IP range will work.
->>>>>>> upstream/master
 
 Create the VPC using the CloudFormation stack listed below.
 ```
