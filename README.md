@@ -30,7 +30,7 @@ amazon-eks-vpc.yaml
 
 ## Step 2:
 If you have never launched and EKS instance you will need to create a role as outline [here](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html). It provides the IAM policies you need to associate which are below too.
-=======
+
 If you have never launched and EKS instance you will need to create a role as outlined [here](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html). It provides the IAM policies you need to associate to your role, which are below too.
 * AmazonEKSServicePolicy
 * AmazonEKSClusterPolicy
